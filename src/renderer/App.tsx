@@ -1,8 +1,13 @@
+import React from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import a from './assets/audio/t-rex-roar.mp3';
+
 function Hello() {
   return (
     <div className="test">
-      123
+      <audio src={a} controls loop muted>
+        <source src={a} type="audio/mp3" />
+      </audio>
     </div>
   );
 }
