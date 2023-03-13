@@ -15,6 +15,9 @@ module.exports = {
         'import/no-relative-packages': 'off',
         'import/no-named-as-default': 'off',
         'import/no-named-as-default-member': 'off',
+        'global-require': 'off',
+        'promise/always-return': 'off',
+        'no-unused-vars': 'off',
     },
     parserOptions: {
         ecmaVersion: 2020,
