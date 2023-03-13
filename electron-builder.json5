@@ -1,5 +1,5 @@
 {
-  "productName": "electron-webpack-react",
+  "productName": "electron-react-webpack",
   "appId": "com.reality3d.animate",
   "asar": true,
   "asarUnpack": "**\\*.{node,dll}",
