@@ -17,7 +17,7 @@ const configuration: webpack.Configuration = {
 
     mode: 'development',
 
-    target: ['web', 'electron-renderer'],
+    target: 'electron-renderer',
 
     externals: ['fsevents', 'crypto-browserify'],
 
