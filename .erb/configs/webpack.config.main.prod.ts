@@ -12,53 +12,53 @@ checkNodeEnv('production');
 deleteSourceMaps();
 
 const configuration: webpack.Configuration = {
-  devtool: 'source-map',
+    devtool: 'source-map',
 
-  mode: 'production',
+    mode: 'production',
 
-  target: 'electron-main',
+    target: 'electron-main',
 
-  entry: {
-    main: path.join(webpackPaths.srcMainPath, 'main.ts'),
-    preload: path.join(webpackPaths.srcMainPath, 'preload.ts'),
-  },
-  output: {
-    path: webpackPaths.distMainPath,
-    filename: '[name].js',
-    library: {
-      type: 'umd',
+    entry: {
+        main: path.join(webpackPaths.srcMainPath, 'main.ts'),
+        preload: path.join(webpackPaths.srcMainPath, 'preload.ts'),
     },
-  },
+    output: {
+        path: webpackPaths.distMainPath,
+        filename: '[name].js',
+        library: {
+            type: 'umd',
+        },
+    },
 
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        parallel: true,
-      }),
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+            }),
+        ],
+    },
+
+    plugins: [
+        new BundleAnalyzerPlugin({
+            analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
+            analyzerPort: 8888,
+        }),
+
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+            DEBUG_PROD: false,
+            START_MINIMIZED: false,
+        }),
+
+        new webpack.DefinePlugin({
+            'process.type': '"browser"',
+        }),
     ],
-  },
 
-  plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
-      analyzerPort: 8888,
-    }),
-
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-      DEBUG_PROD: false,
-      START_MINIMIZED: false,
-    }),
-
-    new webpack.DefinePlugin({
-      'process.type': '"browser"',
-    }),
-  ],
-
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
+    node: {
+        __dirname: false,
+        __filename: false,
+    },
 };
 
 export default merge(baseConfig, configuration);

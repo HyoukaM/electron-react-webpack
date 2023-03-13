@@ -10,35 +10,35 @@ import { dependencies as externals } from '../../release/app/package.json';
 import webpackConfigLoader from './webpack.config.loader';
 
 const configuration: webpack.Configuration = {
-  /**
-   * 指定不应由webpack解析的依赖项
-   */
-  externals: [...Object.keys(externals || {})],
+    /**
+     * 指定不应由webpack解析的依赖项
+     */
+    externals: [...Object.keys(externals || {})],
 
-  stats: 'errors-only',
+    stats: 'errors-only',
 
-  module: {
-    rules: webpackConfigLoader.webpackTransformationLoader,
-  },
-
-  output: {
-    path: webpackPaths.srcPath,
-    library: {
-      type: 'commonjs2',
+    module: {
+        rules: webpackConfigLoader.webpackTransformationLoader,
     },
-  },
 
-  resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    modules: [webpackPaths.srcPath, 'node_modules'],
-    plugins: [new TsconfigPathsPlugins()],
-  },
+    output: {
+        path: webpackPaths.srcPath,
+        library: {
+            type: 'commonjs2',
+        },
+    },
 
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-    }),
-  ],
+    resolve: {
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+        modules: [webpackPaths.srcPath, 'node_modules'],
+        plugins: [new TsconfigPathsPlugins()],
+    },
+
+    plugins: [
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+        }),
+    ],
 };
 
 export default configuration;

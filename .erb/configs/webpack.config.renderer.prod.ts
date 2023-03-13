@@ -21,69 +21,68 @@ checkNodeEnv('production');
 deleteSourceMaps();
 
 const configuration: webpack.Configuration = {
-  devtool: 'source-map',
+    devtool: 'source-map',
 
-  mode: 'production',
+    mode: 'production',
 
-  target: ['web', 'electron-renderer'],
+    target: ['web', 'electron-renderer'],
 
-  entry: [path.join(webpackPaths.srcRendererPath, 'index.tsx')],
+    entry: [path.join(webpackPaths.srcRendererPath, 'index.tsx')],
 
-  output: {
-    path: webpackPaths.distRendererPath,
-    publicPath: './',
-    filename: 'renderer.js',
-    library: {
-      type: 'umd',
+    output: {
+        path: webpackPaths.distRendererPath,
+        publicPath: './',
+        filename: 'renderer.js',
+        library: {
+            type: 'umd',
+        },
     },
-  },
 
-  module: {
-    rules: webpackConfigLoader.webpackSourceLoader,
-  },
+    module: {
+        rules: webpackConfigLoader.webpackSourceLoader,
+    },
 
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        parallel: true,
-      }),
-      new CssMinimizerPlugin(),
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+            }),
+            new CssMinimizerPlugin(),
+        ],
+    },
+
+    plugins: [
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+            DEBUG_PROD: false,
+        }),
+
+        new MiniCssExtractPlugin({
+            filename: 'style.css',
+        }),
+
+        new BundleAnalyzerPlugin({
+            analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
+            analyzerPort: 8889,
+        }),
+
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.join(webpackPaths.srcRendererPath, 'index.ejs'),
+            minify: {
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+            },
+            isBrowser: false,
+            isDevelopment: process.env.NODE_ENV !== 'production',
+        }),
+
+        new webpack.DefinePlugin({
+            'process.type': '"renderer"',
+        }),
     ],
-  },
-
-  plugins: [
-
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-      DEBUG_PROD: false,
-    }),
-
-    new MiniCssExtractPlugin({
-      filename: 'style.css',
-    }),
-
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
-      analyzerPort: 8889,
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(webpackPaths.srcRendererPath, 'index.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-      },
-      isBrowser: false,
-      isDevelopment: process.env.NODE_ENV !== 'production',
-    }),
-
-    new webpack.DefinePlugin({
-      'process.type': '"renderer"',
-    }),
-  ],
 };
 
 export default merge(baseConfig, configuration);

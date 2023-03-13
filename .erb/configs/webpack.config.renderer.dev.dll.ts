@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import path, { resolve } from 'path';
+import path from 'path';
 import { merge } from 'webpack-merge';
 import baseConfig from './webpack.config.base';
 import webpackPaths from './webpack.paths';
@@ -11,51 +11,51 @@ checkNodeEnv('development');
 const dist = webpackPaths.dllPath;
 
 const configuration: webpack.Configuration = {
-  context: webpackPaths.rootPath,
+    context: webpackPaths.rootPath,
 
-  devtool: 'eval',
+    devtool: 'eval',
 
-  mode: 'development',
+    mode: 'development',
 
-  target: 'electron-renderer',
+    target: ['web', 'electron-renderer'],
 
-  externals: ['fsevents', 'crypto-browserify'],
+    externals: ['fsevents', 'crypto-browserify'],
 
-  module: require('./webpack.config.renderer.dev').default.module,
+    module: require('./webpack.config.renderer.dev').default.module,
 
-  entry: {
-    renderer: Object.keys(dependencies || {}),
-  },
-
-  output: {
-    path: dist,
-    filename: '[name].dev.dll.js',
-    library: {
-      name: 'renderer',
-      type: 'var',
+    entry: {
+        renderer: Object.keys(dependencies || {}),
     },
-  },
 
-  plugins: [
-    new webpack.DllPlugin({
-      path: path.join(dist, '[name].json'),
-      name: '[name]',
-    }),
-
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-    }),
-
-    new webpack.LoaderOptionsPlugin({
-      debug: true,
-      options: {
-        context: webpackPaths.srcPath,
-        output: {
-          path: webpackPaths.dllPath,
+    output: {
+        path: dist,
+        filename: '[name].dev.dll.js',
+        library: {
+            name: 'renderer',
+            type: 'var',
         },
-      },
-    }),
-  ],
+    },
+
+    plugins: [
+        new webpack.DllPlugin({
+            path: path.join(dist, '[name].json'),
+            name: '[name]',
+        }),
+
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+        }),
+
+        new webpack.LoaderOptionsPlugin({
+            debug: true,
+            options: {
+                context: webpackPaths.srcPath,
+                output: {
+                    path: webpackPaths.dllPath,
+                },
+            },
+        }),
+    ],
 };
 
 export default merge(baseConfig, configuration);

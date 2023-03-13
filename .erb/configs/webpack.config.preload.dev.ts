@@ -7,46 +7,48 @@ import webpackPaths from './webpack.paths';
 import checkNodeEnv from '../scripts/check-node-env';
 
 if (process.env.NODE_ENV === 'production') {
-  checkNodeEnv('development');
+    checkNodeEnv('development');
 }
 
 const configuration: webpack.Configuration = {
-  devtool: 'inline-source-map',
+    devtool: 'inline-source-map',
 
-  mode: 'development',
+    mode: 'development',
 
-  target: 'electron-preload',
+    target: 'electron-preload',
 
-  entry: path.join(webpackPaths.srcMainPath, 'preload.ts'),
+    entry: path.join(webpackPaths.srcMainPath, 'preload.ts'),
 
-  output: {
-    path: webpackPaths.dllPath,
-    filename: 'preload.js',
-    library: {
-      type: 'umd',
+    output: {
+        path: webpackPaths.dllPath,
+        filename: 'preload.js',
+        library: {
+            type: 'umd',
+        },
     },
-  },
 
-  plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
-    }),
+    plugins: [
+        new BundleAnalyzerPlugin({
+            analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
+        }),
 
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-    }),
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+        }),
 
-    new webpack.LoaderOptionsPlugin({
-      debug: true,
-    }),
-  ],
+        new webpack.LoaderOptionsPlugin({
+            debug: true,
+        }),
+    ],
 
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
+    node: {
+        __dirname: false,
+        __filename: false,
+    },
 
-  watch: true,
+    watch: true,
 };
 
 export default merge(baseConfig, configuration);
+
+export {};
