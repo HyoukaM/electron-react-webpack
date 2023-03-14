@@ -3,6 +3,14 @@
  * TODO 特别注意这边是基础的loader，如果对应开发需要添加loader请到对应文件当中去修改
  */
 
+import { theme } from 'antd/lib';
+import { convertLegacyToken } from '@ant-design/compatible/lib';
+
+const { defaultAlgorithm, defaultSeed } = theme;
+
+const mapToken = defaultAlgorithm(defaultSeed);
+const v4Token = convertLegacyToken(mapToken);
+
 const webpackTransformationLoader = [
     {
         test: /\.[jt]sx?$/,
@@ -32,7 +40,14 @@ const webpackSourceLoader = [
                     importLoaders: 1,
                 },
             },
-            'less-loader',
+            {
+                loader: 'less-loader',
+                options: {
+                    lessOptions: {
+                        modifyVars: v4Token,
+                    },
+                },
+            },
         ],
         include: /\.module\.l?(c|e)ss$/,
     },
