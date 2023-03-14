@@ -11,12 +11,6 @@ root.render(
     </StyleProvider>,
 );
 
-/**
- * example
- */
-// import { ipcRenderer } from 'electron';
-//
-// console.log(ipcRenderer);
 window.electron.ipcRenderer.once('ipc-example', (arg: any) => {
     console.log(arg);
 });
