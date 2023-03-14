@@ -8,7 +8,6 @@ import TsconfigPathsPlugins from 'tsconfig-paths-webpack-plugin';
 import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
 import webpackConfigLoader from './webpack.config.loader';
-import { resolve } from 'path';
 
 const configuration: webpack.Configuration = {
     /**
@@ -36,6 +35,7 @@ const configuration: webpack.Configuration = {
         alias: {
             renderer: webpackPaths.srcRendererPath,
             main: webpackPaths.srcMainPath,
+            declaration: webpackPaths.srcDeclarationPath,
         },
     },
 
