@@ -39,7 +39,7 @@ const configuration: webpack.Configuration = {
     },
 
     module: {
-        rules: webpackConfigLoader.webpackSourceLoader,
+        rules: webpackConfigLoader.webpackProductionLoader,
     },
 
     optimization: {
