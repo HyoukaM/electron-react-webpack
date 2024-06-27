@@ -55,7 +55,7 @@ const webpackDefaultLoader: webpack.RuleSetRule[] = [
     },
 ];
 
-const webpackDevelopLoader = webpackDefaultLoader.concat(
+const webpackDevelopLoader = [
     {
         test: /\.l?(c|e)ss$/,
         use: [
@@ -78,10 +78,11 @@ const webpackDevelopLoader = webpackDefaultLoader.concat(
             },
         ],
         include: /\.module\.l?(c|e)ss$/,
-    }
-);
+    },
+    ...webpackDefaultLoader
+];
 
-const webpackProductionLoader = webpackDefaultLoader.concat(
+const webpackProductionLoader = [
     {
         test: /\.l?(c|e)ss$/,
         use: [
@@ -104,8 +105,9 @@ const webpackProductionLoader = webpackDefaultLoader.concat(
             },
         ],
         include: /\.module\.l?(c|e)ss$/,
-    }
-);
+    },
+    ...webpackDefaultLoader
+]
 
 export default {
     webpackDevelopLoader,
