@@ -32,11 +32,6 @@ const configuration: webpack.Configuration = {
         extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
         modules: [webpackPaths.srcPath, 'node_modules'],
         plugins: [new TsconfigPathsPlugins({})],
-        alias: {
-            renderer: webpackPaths.srcRendererPath,
-            main: webpackPaths.srcMainPath,
-            declaration: webpackPaths.srcDeclarationPath,
-        },
     },
 
     plugins: [

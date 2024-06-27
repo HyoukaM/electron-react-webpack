@@ -46,7 +46,7 @@ const configuration: webpack.Configuration = {
     },
 
     module: {
-        rules: webpackConfigLoader.webpackSourceLoader,
+        rules: webpackConfigLoader.webpackDevelopLoader,
     },
     plugins: [
         ...(skipDLLs

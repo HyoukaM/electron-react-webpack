@@ -3,14 +3,6 @@
  * TODO 特别注意这边是基础的loader，如果对应开发需要添加loader请到对应文件当中去修改
  */
 
-import { theme } from 'antd/lib';
-import { convertLegacyToken } from '@ant-design/compatible/lib';
-
-const { defaultAlgorithm, defaultSeed } = theme;
-
-const mapToken = defaultAlgorithm(defaultSeed);
-const v4Token = convertLegacyToken(mapToken);
-
 const webpackTransformationLoader = [
     {
         test: /\.[jt]sx?$/,
@@ -27,7 +19,7 @@ const webpackTransformationLoader = [
     },
 ];
 
-const webpackSourceLoader = [
+const webpackDevelopLoader = [
     {
         test: /\.l?(c|e)ss$/,
         use: [
@@ -44,7 +36,7 @@ const webpackSourceLoader = [
                 loader: 'less-loader',
                 options: {
                     lessOptions: {
-                        modifyVars: v4Token,
+                        javascriptEnabled: true,
                     },
                 },
             },
@@ -52,36 +44,17 @@ const webpackSourceLoader = [
         include: /\.module\.l?(c|e)ss$/,
     },
     {
-        test: /\.l?(c|e)ss$/,
+        test: /\.l?css$/,
         use: ['style-loader', 'css-loader', 'less-loader'],
-        exclude: /\.module\.l?(c|e)ss$/,
+        exclude: /\.module\.l?css$/,
     },
     {
-        test: /\.worker\.(js|ts)$/,
-        use: {
-            loader: 'worker-loader',
-            options: {
-                inline: false,
-            },
-        },
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
     },
     {
-        test: /\.(png|jpg|gif|jpeg|webp|ico|cur|glb|ttf|woff|woff2|hdr)(\?.*)?$/,
-        use: [
-            {
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'img/[name].[hash:7].[ext]',
-                    esModule: true,
-                },
-            },
-        ],
-    },
-    {
-        test: /\.(wav|mp3|mp4|re3d|glb|hdr)$/,
-        exclude: /node_modules/,
-        loader: 'file-loader',
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
     },
     {
         test: /\.svg$/,
@@ -104,6 +77,6 @@ const webpackSourceLoader = [
 ];
 
 export default {
-    webpackSourceLoader,
+    webpackDevelopLoader,
     webpackTransformationLoader,
 };
